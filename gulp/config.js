@@ -14,7 +14,8 @@ var vendorLibs = [
   'react-router',
   'socket.io-client',
   'es6-promise',
-  'moment'
+  'moment',
+  'node-uuid'
 ];
 
 var es6ify = require('es6ify');

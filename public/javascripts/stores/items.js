@@ -10,6 +10,7 @@ var kActions = require('../constants/actions'),
 
 var _actions = _.zipObject([
   [kActions.ITEM_GETALL, 'handleSetAll'],
+  [kActions.ITEM_GETONE, 'handleSetOne'],
   [kActions.ITEM_POST, 'handleEntryCreate'],
   [kActions.ITEM_PUT, 'handleEntryUpdate'],
   [kActions.ITEM_DELETE, 'handleEntryDelete']
@@ -64,6 +65,10 @@ class ItemsStore extends BaseStore {
     }
 
     this.emitChange();
+  }
+
+  handleSetOne(payload) {
+
   }
 
   handleEntryCreate(payload) {

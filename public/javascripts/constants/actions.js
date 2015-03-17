@@ -9,8 +9,9 @@ var keyMirror = require('react/lib/keyMirror');
  * For example, an action for fetching a specific "Item" object:
  * ITEM_GET
  *
- * Actions verbs should typically use one of the following:
- * GET                      <- Retrieving a list of objects. (e.g. GET /items)
+ * If you're using the CRUD Action and Store base classes the verbs must be the following:
+ * GETALL                   <- Retrieving a list of objects. (e.g. GET /items)
+ * GETONE                   <- Get a single object (e.g. GET /items/:id)
  * POST                     <- Creating an object. (e.g. POST /items)
  * PUT                      <- Update an existing object. (e.g. PUT /items/:id)
  * DELETE                   <- Deleting an object. (e.g. DELETE /items/:id)
