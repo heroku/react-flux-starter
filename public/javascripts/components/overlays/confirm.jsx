@@ -46,7 +46,7 @@ module.exports = React.createClass({
     );
   },
 
-  handleModalHide: function() {
+  handleModalHidden: function() {
     if (this.confirmed) {
       if (this.props.yesCallback) {
         this.props.yesCallback();

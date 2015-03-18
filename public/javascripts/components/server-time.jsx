@@ -9,7 +9,7 @@ var ServerTimeActions = require('../actions/server-time');
 
 module.exports = React.createClass({
 
-  mixins: [storeChangeMixin(Stores.ServerTimeStore)],
+  mixins: [storeChangeMixin(Stores.ServerTimeStore), React.addons.PureRenderMixin],
 
   getInitialState: function () {
     return {

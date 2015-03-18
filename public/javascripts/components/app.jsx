@@ -1,5 +1,6 @@
 'use strict';
 
+// bootstrap initialization
 var $ = require('jquery');
 window.jQuery = $;
 require('bootstrap');
@@ -15,10 +16,6 @@ var NavBar = require('./nav-bar.jsx'),
 module.exports = React.createClass({
 
   mixins: [Router.State],
-
-  getInitialState: function () {
-    return {};
-  },
 
   render: function () {
     return (

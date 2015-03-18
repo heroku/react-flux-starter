@@ -29,7 +29,7 @@ module.exports = React.createClass({
               <form>
                 <div className="form-group">
                   <label htmlFor="firstname">First Name</label>
-                  <input type="text" className="form-control" id="firstname" placeholder="First name" valueLink={this.linkState('firstName')} />
+                  <input ref="firstName" type="text" className="form-control" id="firstname" placeholder="First name" valueLink={this.linkState('firstName')} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="lastname">Last Name</label>
@@ -47,7 +47,12 @@ module.exports = React.createClass({
     );
   },
 
-  handleModalHide: function() {
+  // uses Bootstrap modal's
+  handleModalShown: function() {
+    this.refs.firstName.getDOMNode().focus();
+  },
+
+  handleModalHidden: function() {
     if (this.confirmed) {
       if (this.props.okCallback) {
         this.props.okCallback(this.state.firstName, this.state.lastName);

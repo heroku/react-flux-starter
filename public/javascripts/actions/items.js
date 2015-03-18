@@ -2,6 +2,11 @@
 
 var CRUDBase = require('./crud-base');
 
+/**
+ * Basic CRUD actions for a RESTful JSON "resource".  Overriding "post" and "put"
+ * to create JSON payload that the endpoint expects.
+ */
+
 class ItemActions extends CRUDBase {
 
   // specify the baseURL and action object identifier for dispatches
@@ -9,7 +14,7 @@ class ItemActions extends CRUDBase {
     super('/api/items', 'ITEM');
   }
 
-  // define create json data appropriate for resource
+  // define "create" json payload appropriate for resource
   post (first, last) {
     var data = {
       first: first,
@@ -18,7 +23,7 @@ class ItemActions extends CRUDBase {
     super.post(data);
   }
 
-  // define update json data appropriate for resource
+  // define "update" json payload appropriate for resource
   put (id, first, last) {
     var data = {
       id: id,

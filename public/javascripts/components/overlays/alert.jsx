@@ -44,7 +44,7 @@ module.exports = React.createClass({
   },
 
 
-  handleModalHide: function() {
+  handleModalHidden: function() {
     if (this.props.ackCallback) {
       this.props.ackCallback();
     }

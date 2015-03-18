@@ -6,6 +6,10 @@ var CRUDBase = require('./crud-base');
 
 var ItemActions = require('../actions/items');
 
+/**
+ * Basic CRUD store for a RESTful JSON "resource".  Overriding "getAll" to add
+ * sort order to resources lists.
+ */
 class ItemsStore extends CRUDBase {
 
   // specify the action instance and action object identifier (and dispatcher)

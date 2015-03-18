@@ -10,14 +10,17 @@ module.exports = {
   componentDidMount: function() {
     var $node = $(this.getDOMNode());
 
-    $node.on('hidden.bs.modal', this._handleModalHide);
+    $node.on('shown.bs.modal', this._handleModalShown);
+    $node.on('hidden.bs.modal', this._handleModalHidden);
     $(document).on('keyup', this._handleKeyUp);
 
     $node.modal({backdrop: 'static', keyboard: true});
   },
 
   componentWillUnmount: function() {
-    $(this.getDOMNode()).off('hidden.bs.modal', this._handleModalHide);
+    var $node = $(this.getDOMNode());
+    $node.off('hidden.bs.modal', this._handleModalHidden);
+    $node.off('hidden.bs.modal', this._handleModalShown);
     $(document).off('keyup', this._handleKeyUp);
   },
 
@@ -25,9 +28,15 @@ module.exports = {
     $(this.getDOMNode()).modal('hide');
   },
 
-  _handleModalHide: function() {
-    if (this.handleModalHide) {
-      this.handleModalHide();
+  _handleModalShown: function () {
+    if (this.handleModalShown) {
+      this.handleModalShown();
+    }
+  },
+
+  _handleModalHidden: function() {
+    if (this.handleModalHidden) {
+      this.handleModalHidden();
     }
     Overlays.pop();
   },

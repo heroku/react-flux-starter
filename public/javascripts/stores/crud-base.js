@@ -17,17 +17,10 @@ class CRUDStore extends BaseStore {
   constructor(dispatcher, actions, actionObjectId) {
     super(dispatcher);
 
-    this._actions = actions;
-
     this._resources = undefined;
 
-    this._handlers = _.zipObject([
-      [_actionForMethod(actionObjectId, 'GETALL'), '_onGetAll'],
-      [_actionForMethod(actionObjectId, 'GETONE'), '_onGetOne'],
-      [_actionForMethod(actionObjectId, 'POST'), '_onPost'],
-      [_actionForMethod(actionObjectId, 'PUT'), '_onPut'],
-      [_actionForMethod(actionObjectId, 'DELETE'), '_onDelete']
-    ]);
+    this._actions = actions;
+    this._handlers = this._getActionHandlers(actionObjectId);
   }
 
   /**
@@ -44,9 +37,24 @@ class CRUDStore extends BaseStore {
     return this._resources !== undefined ? (id in this._resources ? this._resources[id] : this._loadOne(id)) : this._loadAll();
   }
 
+
+  /**
+   * Support for defining and getting action handler map
+   */
   _getActions() {
     return this._handlers;
   }
+
+  _getActionHandlers(actionObjectId) {
+    return _.zipObject([
+      [_actionForMethod(actionObjectId, 'GETALL'), '_onGetAll'],
+      [_actionForMethod(actionObjectId, 'GETONE'), '_onGetOne'],
+      [_actionForMethod(actionObjectId, 'POST'), '_onPost'],
+      [_actionForMethod(actionObjectId, 'PUT'), '_onPut'],
+      [_actionForMethod(actionObjectId, 'DELETE'), '_onDelete']
+    ]);
+  }
+
 
   /**
    * Utility methods

@@ -9,6 +9,10 @@ var Actions = require('./base');
 var kActions = require('../constants/actions'),
     kStates = require('../constants/states');
 
+/**
+ * Overlays are basic modals or popups.  Various alerts and confirms are predefined.
+ */
+
 class OverlaysActions extends Actions {
 
   /**

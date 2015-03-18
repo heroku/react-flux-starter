@@ -13,9 +13,18 @@ var ItemActions = require('../actions/items');
 
 var Overlays = require('../actions/overlays');
 
+/**
+ * Simple example of a basic CRUD interface.  List items and supports
+ * create, edit, delete of items in list.
+ *
+ * Uses the CRUD based Item Store and Actions.  Listens to changes to the
+ * Item store.  Uses Reacts PureRenderMixin to only render when state or
+ * props have changed (would work even better if using Immutable JS)
+ */
+
 module.exports = React.createClass({
 
-  mixins: [storeChangeMixin(Stores.ItemsStore)],
+  mixins: [storeChangeMixin(Stores.ItemsStore), React.addons.PureRenderMixin],
 
   getInitialState: function () {
     return {
@@ -29,6 +38,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    
     var content;
 
     if (!this.state.items) {
@@ -44,7 +54,9 @@ module.exports = React.createClass({
              {_.map(this.state.items, item =>
                <tr key={item.data.id}
                    className={this.state.selection === item.data.id ? 'active' : ''}
-                   style={_.contains([kStates.NEW, kStates.SAVING, kStates.DELETING], item.state) ? {color:'#ccc'} : {}}
+                   style={{
+                     color: _.contains([kStates.NEW, kStates.SAVING, kStates.DELETING], item.state) ? '#ccc' : 'inherit',
+                     textDecoration: item.state === kStates.DELETING ? 'line-through' : 'none'}}
                    onClick={this._onClick.bind(this, item.data.id)} >
                  <td>{item.data.first}</td><td>{item.data.last}</td><td>{item.data.id}</td>
                </tr>

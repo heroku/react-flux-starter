@@ -7,7 +7,6 @@ var Dispatcher = require('../dispatcher');
 
 var apiSubscriptionSrvc = require('../services/index').apiSubscriptions;
 
-var kState = require('../constants/states');
 
 module.exports = class Actions {
 
@@ -29,21 +28,6 @@ module.exports = class Actions {
       syncState: syncState,
       data: data
     };
-  }
-
-  /**
-   * Set _meta_state property to SYNCED in all contained entities
-   * @method _setMetaState
-   * @param {object} normalizedData - server response which has been normalized with normalizr
-   */
-  _setMetaState (normalizedData, metaState = kState.SYNCED) {
-    _.each(normalizedData.entities, function (entities) {
-      _.each(entities, function (entity) {
-        entity._meta_state = metaState;
-      });
-    });
-
-    return normalizedData;
   }
 
   /**
@@ -120,6 +104,7 @@ module.exports = class Actions {
       throw new Error(`syncState argument value of undefined passed to dispatchUserAction.  You're most likely referencing an invalid State constant (constants/state.js).`);
     }
   }
+  
   /** Dispatch server action.
    * @method dispatchServerAction
    * @param {integer} actionType - action type from constants/actions
