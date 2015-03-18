@@ -37,9 +37,8 @@ router.route('/items')
     _items[item.id] = item;
 
     // simulate slow response
-    setTimeout(function () { res.status(200).send(item); }, 2000);
+    setTimeout(function () { res.status(200).send(item); }, 1000);
 
-    console.log(_items);
     // io.emit(req.user.id, 'POST /api/items/' + item.id, item);
   });
 
@@ -47,7 +46,7 @@ router.route('/items')
 
 // validate id; lookup item in table
 router.param('id', function (req, res, next, id) {
-  var item = _items[parseInt(id, 10)];
+  var item = _items[id];
   if (item) {
     req.params.item = item;
     next();
@@ -73,9 +72,10 @@ router.route('/items/:id')
 
     _items[item.id] = item;   // this is necessary but just here for example
 
-    res.status(200).send(item);
+    // simulate slow response
+    setTimeout(function () { res.status(200).send(item); }, 1000);
 
-    //io.emit(req.user.id, 'PUT /api/items/' + id, item);
+    // io.emit(req.user.id, 'PUT /api/items/' + id, item);
   })
 
   // DELETE the specified item
@@ -86,10 +86,9 @@ router.route('/items/:id')
 
     delete _items[id];
 
-    res.status(200).send(resp);
+    setTimeout(function () { res.status(200).send(resp); }, 1000);
 
-//    io.emit(req.user.id, 'DELETE /api/items/' + id, {id: id});
-
+    // io.emit(req.user.id, 'DELETE /api/items/' + id, {id: id});
   });
 
 

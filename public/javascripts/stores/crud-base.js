@@ -41,7 +41,6 @@ class CRUDStore extends BaseStore {
    * Get single resource
    */
   get(id) {
-    id = parseInt(id, 10);
     return this._resources !== undefined ? (id in this._resources ? this._resources[id] : this._loadOne(id)) : this._loadAll();
   }
 

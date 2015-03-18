@@ -112,7 +112,7 @@ class CRUDBase extends BaseAction {
      var action = this._actionForMethod('DELETE');
      ajax({
        url: `${this.baseURL}/${id}`,
-       type: "PUT",
+       type: "DELETE",
        accepts: {
          'json': "application/json",
          'text': 'text/plain'

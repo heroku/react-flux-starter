@@ -19,7 +19,8 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      items: Stores.ItemsStore.getAll()
+      items: Stores.ItemsStore.getAll(),
+      selection: null
     };
   },
 
@@ -41,7 +42,10 @@ module.exports = React.createClass({
            </thead>
            <tbody>
              {_.map(this.state.items, item =>
-               <tr key={item.data.id} style={_.contains([kStates.NEW, kStates.SAVING, kStates.DELETING], item.state) ? {color:'#ccc'} : {}}>
+               <tr key={item.data.id}
+                   className={this.state.selection === item.data.id ? 'active' : ''}
+                   style={_.contains([kStates.NEW, kStates.SAVING, kStates.DELETING], item.state) ? {color:'#ccc'} : {}}
+                   onClick={this._onClick.bind(this, item.data.id)} >
                  <td>{item.data.first}</td><td>{item.data.last}</td><td>{item.data.id}</td>
                </tr>
              )}
@@ -56,6 +60,12 @@ module.exports = React.createClass({
           <div className="col-xs-12">
             <header>
               <h3 style={{display:'inline-block',marginTop:'0'}}>Items</h3>
+              <button type="button" className="btn btn-default pull-right" disabled={!this.state.selection} onClick={this._onDelete}>
+                <span className="glyphicon glyphicon-trash"></span>
+              </button>
+              <button type="button" className="btn btn-default pull-right" disabled={!this.state.selection} onClick={this._onUpdate}>
+                <span className="glyphicon glyphicon-pencil"></span>
+              </button>
               <button type="button" className="btn btn-default pull-right" onClick={this._onAdd}>
                 <span className="glyphicon glyphicon-plus"></span>
               </button>
@@ -69,11 +79,30 @@ module.exports = React.createClass({
     );
   },
 
+  _onClick: function (id) {
+    this.setState({selection: id});
+  },
+
   _onAdd: function () {
     var overlay = React.createFactory(require('./overlays/item-form.jsx'));
     return Overlays.push(overlay({
       okCallback: (firstName, lastName) => ItemActions.post(firstName, lastName)
     }, null));
+  },
+
+  _onUpdate: function () {
+    var item = Stores.ItemsStore.get(this.state.selection);
+    var overlay = React.createFactory(require('./overlays/item-form.jsx'));
+    return Overlays.push(overlay({
+      firstName: item.data.first,
+      lastName: item.data.last,
+      okCallback: (firstName, lastName) => ItemActions.put(this.state.selection, firstName, lastName)
+    }, null));
+  },
+
+  _onDelete: function () {
+    ItemActions.delete(this.state.selection);
+    this.setState({selection: null});
   }
 
 });

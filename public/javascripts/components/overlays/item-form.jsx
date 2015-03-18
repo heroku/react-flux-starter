@@ -39,7 +39,7 @@ module.exports = React.createClass({
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default" onClick={this._handleCancel}>Cancel</button>
-              <button type="button" className="btn btn-primary" onClick={this._handleAdd}>Add</button>
+              <button type="button" className="btn btn-primary" onClick={this._handleAdd}>OK</button>
             </div>
           </div>
         </div>
