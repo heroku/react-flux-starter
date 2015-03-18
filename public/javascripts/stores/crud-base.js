@@ -21,6 +21,9 @@ class CRUDStore extends BaseStore {
 
     this._actions = actions;
     this._handlers = this._getActionHandlers(actionObjectId);
+
+    // subscribe the store to the 'getAll' list endpoint
+    actions.subscribeList();
   }
 
   /**
@@ -82,7 +85,17 @@ class CRUDStore extends BaseStore {
         this.inflight = true;
         break;
       case kStates.SYNCED:
+
+        // unsubscribe from resource websocket events if we already have resources
+        if (this._resources) {
+          this._actions.unsubscribeResources(_.map(this._resources, resource => resource.data.id));
+        }
+
+        // subscribe to resource websocket events
         this._resources = _.zipObject(_.map(payload.data, item => [item.id, this.makeStatefulEntry(payload.syncState, item)]));
+
+        this._actions.subscribeResources(_.map(this._resources, resource => resource.data.id));
+
         this.inflight = false;
         break;
     }
@@ -91,8 +104,9 @@ class CRUDStore extends BaseStore {
   }
 
   _onGetOne(payload) {
-
     console.debug(`${this.getStoreName()}:_onGetAll; state=${payload.syncState}`);
+
+    var exists;
 
     switch(payload.syncState) {
       case kStates.LOADING:
@@ -100,7 +114,12 @@ class CRUDStore extends BaseStore {
         break;
       case kStates.SYNCED:
         this._resources = this._resources || {};
+        exists = !!this._resources[payload.data.id];
         this._resources[payload.data.id] = this.makeStatefulEntry(payload.syncState, payload.data);
+        // only subscribe to resource websocket events if the resource is new
+        if (!exists) {
+          this._actions.subscribeResources(payload.data.id);
+        }
         this.inflight = false;
         break;
     }
@@ -115,6 +134,11 @@ class CRUDStore extends BaseStore {
     if (!this._resources) { this._resources = {}; }
 
     this._resources[payload.data.id] = this.makeStatefulEntry(payload.syncState, payload.data);
+
+    // subscribe to resource only on SYNC
+    if (payload.syncState === kStates.SYNCED) {
+      this._actions.subscribeResources(payload.data.id);
+    }
 
     this.emitChange();
   }
@@ -154,6 +178,8 @@ class CRUDStore extends BaseStore {
           existingEntry = this.updateStatefulEntry(existingEntry, payload.syncState);
           break;
         case kStates.SYNCED:
+          // unsubscribe from resource
+          this._actions.unsubscribeResources(payload.data.id);
           delete this._resources[payload.data.id];
           break;
       }

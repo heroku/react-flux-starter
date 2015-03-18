@@ -127,6 +127,10 @@ module.exports = function (server) {
       *
       */
 
+      if (channel !== 'PUT /api/servertime') {
+        return;
+      }
+
       console.log('initiate subscription to %s', channel);
 
       // Get or create listeners list for channel
@@ -227,11 +231,17 @@ module.exports = function (server) {
     });
 
     socket.on('unsubscribe', function (channel) {
+
+      // ??? remove if using redis
+      if (channel !== '/api/servertime') {
+        return;
+      }
+
       unsubscribe(socket, channel);
 
       /*
       * ??? ONLY FOR EXAMPLE to simulate subscription to /api/servertime
-      *remove if using redis
+      * remove if using redis
       */
       clearInterval(interval);
     });

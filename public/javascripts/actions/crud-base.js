@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 var uuid = require('node-uuid');
 
 var kActions = require('../constants/actions');
@@ -16,6 +18,9 @@ class CRUDBase extends BaseAction {
     super();
     this.baseURL = baseURL;
     this.actionObjectId = actionObjectId;
+
+    // explicitly bind handlers for web socket events
+    _.bindAll(this, '_onPostEvent', '_onPutEvent', '_onDeleteEvent');
   }
 
   _actionForMethod(method) {
@@ -128,6 +133,66 @@ class CRUDBase extends BaseAction {
      this.dispatchServerAction(action, kStates.DELETING, {id: id});
 
    }
+
+
+   /**
+    *
+    *  Subscription methods
+    *
+    */
+  _onPostEvent(event, channel, data) {
+    this.dispatchServerAction(this._actionForMethod('POST'), kStates.SYNCED, {
+      subscription: this._normalizeChannelName(channel),
+      id: data.id,
+      data: data
+    });
+  }
+
+  _onPutEvent(event, channel, data) {
+    this.dispatchServerAction(this._actionForMethod('PUT'), kStates.SYNCED, {
+      subscription: this._normalizeChannelName(channel),
+      id: data.id,
+      data: data
+    });
+  }
+
+  _onDeleteEvent(event, channel) {
+    var re = new RegExp(`${this.baseURL}/(.+)$`),  // re for extracing resource id from channel
+        id = re.exec(channel)[1];
+
+    this.dispatchServerAction(this._actionForMethod('DELETE'), kStates.SYNCED, {
+      subscription: this._normalizeChannelName(channel),
+      id: id
+    });
+  }
+
+  subscribeList () {
+    this._subscribe(this.baseURL, ['POST'], this._onPostEvent);
+  }
+
+  unsubscribeList () {
+    this._unsubscribe(this.baseURL, ['POST'], this._onPostEvent);
+  }
+
+  subscribeResources(ids) {
+    if (!_.isArray(ids)) {
+      ids = [ids];
+    }
+
+    var channels = _.map(ids, id => `${this.baseURL}/${id}`);
+    this._subscribe(channels, ['PUT'], this._onPutEvent);
+    this._subscribe(channels, ['DELETE'], this._onDeleteEvent);
+  }
+
+  unsubscribeResources(ids) {
+    if (!_.isArray(ids)) {
+      ids = [ids];
+    }
+
+    var channels = _.map(ids, id => `${this.baseURL}/${id}`);
+    this._unsubscribe(channels, ['PUT'], this._onPutEvent);
+    this._unsubscribe(channels, ['DELETE'], this._onDeleteEvent);
+  }
 
 }
 
