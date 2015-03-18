@@ -19,7 +19,7 @@ class ServerTimeStore extends BaseStore {
     this._serverTime = undefined;
   }
 
-  getActions() {
+  _getActions() {
     return _actions;
   }
 

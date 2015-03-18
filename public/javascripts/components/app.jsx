@@ -1,11 +1,16 @@
 'use strict';
 
+var $ = require('jquery');
+window.jQuery = $;
+require('bootstrap');
+
 var React = require('react/addons');
 
 var Router = require('react-router'),
     RouteHandler = Router.RouteHandler;
 
-var NavBar = require('./nav-bar.jsx');
+var NavBar = require('./nav-bar.jsx'),
+    OverlayManager = require('./overlays/overlay-manager.jsx');
 
 module.exports = React.createClass({
 
@@ -20,6 +25,7 @@ module.exports = React.createClass({
       <div>
         <NavBar />
         <RouteHandler />
+        <OverlayManager />
       </div>
     );
   }

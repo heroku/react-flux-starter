@@ -39,7 +39,7 @@ class BaseStore extends EventEmitter {
     return this.inFlight;
   }
 
-  getActions(){
+  _getActions(){
     return {};
   }
 
@@ -50,16 +50,14 @@ class BaseStore extends EventEmitter {
   // for creating a standard store entry that captures the entities state
   makeStatefulEntry(state=undefined, data=undefined) {
     return {
-      meta: {
-        state: state
-      },
+      state: state,
       data: data
     };
   }
 
   updateStatefulEntry(entry, state, data) {
     _.extend(entry.data || (entry.data = {}), data);
-    entry.meta.state = state;
+    entry.state = state;
     return entry;
   }
 
@@ -72,7 +70,7 @@ class BaseStore extends EventEmitter {
   _handleAction(actionType, action){
     // Proxy actionType to the instance method defined in actions[actionType],
     // or optionally if the value is a function, invoke it instead.
-    var actions = this.getActions();
+    var actions = this._getActions();
     if (actions.hasOwnProperty(actionType)) {
       var actionValue = actions[actionType];
       if (_.isString(actionValue)) {

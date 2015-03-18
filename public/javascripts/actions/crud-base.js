@@ -12,14 +12,14 @@ var BaseAction = require('./base');
 
 class CRUDBase extends BaseAction {
 
-  constructor (baseURL, actionBase) {
+  constructor (baseURL, actionObjectId) {
     super();
     this.baseURL = baseURL;
-    this.actionBase = actionBase;
+    this.actionObjectId = actionObjectId;
   }
 
   _actionForMethod(method) {
-    return kActions[this.actionBase + '_' + method];
+    return kActions[this.actionObjectId + '_' + method];
   }
 
   /**

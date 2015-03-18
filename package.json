@@ -54,6 +54,7 @@
   },
   "browserify-shim": {
     "bootstrap": {
+      "exports": "bootstrap",
       "depends": [
         "jquery:jQuery"
       ]

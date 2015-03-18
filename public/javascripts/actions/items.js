@@ -15,7 +15,7 @@ class ItemActions extends CRUDBase {
       first: first,
       last: last
     };
-    super(data);
+    super.post(data);
   }
 
   // define update json data appropriate for resource
@@ -25,7 +25,7 @@ class ItemActions extends CRUDBase {
       first: first,
       last: last
     };
-    super(id, data);
+    super.put(id, data);
   }
 
 }

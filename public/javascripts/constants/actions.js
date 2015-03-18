@@ -31,6 +31,10 @@ module.exports = keyMirror({
 
   // servertime actions
   SERVERTIME_GET: null,
-  SERVERTIME_PUT: null
+  SERVERTIME_PUT: null,
+
+  // overlay actions
+  OVERLAY_PUSH: null,
+  OVERLAY_POP: null,
 
 });

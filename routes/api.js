@@ -6,13 +6,12 @@ var express = require('express');
 
 var router = express.Router();
 
-var _id = 3;
 
-var _items = [
-  {id: 1, first: 'Howard', last: 'Burrows'},
-  {id: 2, first: 'David', last: 'Gouldin'},
-  {id: 3, first: 'Scott', last: 'Persinger'}
-];
+var _items = {
+  'dd586160-cd1d-11e4-aaba-2566638c135c': {id: 'dd586160-cd1d-11e4-aaba-2566638c135c', first: 'Howard', last: 'Burrows'},
+  'e7b03cf0-cd1d-11e4-aaba-2566638c135c': {id: 'e7b03cf0-cd1d-11e4-aaba-2566638c135c', first: 'David', last: 'Gouldin'},
+  '07046900-cd1e-11e4-aaba-2566638c135c': {id: '07046900-cd1e-11e4-aaba-2566638c135c', first: 'Scott', last: 'Persinger'}
+};
 
 // response headers for all responses
 router.use(function (req, res, next) {
@@ -29,16 +28,18 @@ router.route('/items')
 
   // GET list of items
   .get(function (req, res) {
-    res.status(200).send(_items);
+    res.status(200).send(_.map(_items, function(item) { return item; }));
   })
 
   // POST new item
   .post(function (req, res) {
     var item = _.extend({}, req.body);
-    item.id = _id += 1;
     _items[item.id] = item;
-    res.status(200).send(item);
 
+    // simulate slow response
+    setTimeout(function () { res.status(200).send(item); }, 2000);
+
+    console.log(_items);
     // io.emit(req.user.id, 'POST /api/items/' + item.id, item);
   });
 
@@ -55,8 +56,6 @@ router.param('id', function (req, res, next, id) {
     return res.send(404, 'NOT FOUND');
   }
 });
-
-
 
 router.route('/items/:id')
 
