@@ -1,6 +1,6 @@
 # react-flux-starter
 
-An application template for a single page webapp backed by Express that uses React with a Flux architecture with support for Actions, Stores, message dispatching, and real-time updates.
+An application template for a single page webapp backed by Express that uses React with a Flux architecture with support for Actions, Stores, message dispatching, and real-time updates using web sockets.  Uses react-router for page routing.
 
 Uses Bootstrap and LESS for CSS, Browserify for Javascript bundling, ES6 syntax via Traceur, and Gulp for managing all the front-end asset build and packaging.
 
