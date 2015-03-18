@@ -233,7 +233,7 @@ module.exports = function (server) {
     socket.on('unsubscribe', function (channel) {
 
       // ??? remove if using redis
-      if (channel !== '/api/servertime') {
+      if (channel !== 'PUT /api/servertime') {
         return;
       }
 
