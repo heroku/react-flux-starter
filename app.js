@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-console.log('===> Static files getting served from ' + path.join(__dirname, 'public'));
 
 app.use('/api', api);
 app.use('/', routes);
