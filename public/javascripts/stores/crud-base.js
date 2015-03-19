@@ -92,7 +92,8 @@ class CRUDStore extends BaseStore {
         }
 
         // subscribe to resource websocket events
-        this._resources = _.zipObject(_.map(payload.data, item => [item.id, this.makeStatefulEntry(payload.syncState, item)]));
+        var map = _.map(payload.data, item => [item.id, this.makeStatefulEntry(payload.syncState, item)]);
+        this._resources = _.zipObject(map);
 
         this._actions.subscribeResources(_.map(this._resources, resource => resource.data.id));
 
