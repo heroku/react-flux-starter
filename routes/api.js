@@ -8,7 +8,9 @@ var router = express.Router();
 
 
 var _items = {
-  'dd586160-cd1d-11e4-aaba-2566638c135c': {id: 'dd586160-cd1d-11e4-aaba-2566638c135c', first: 'Howard', last: 'Burrows'}
+  'dd586160-cd1d-11e4-aaba-2566638c135c': {id: 'dd586160-cd1d-11e4-aaba-2566638c135c', first: 'John', last: 'Doe'},
+  'dd586160-cd1d-11e4-aaba-2566638c135c': {id: 'dd586160-cd1d-11e4-aaba-2566638c135c', first: 'Frank', last: 'Wells'},
+  'dd586160-cd1d-11e4-aaba-2566638c135c': {id: 'dd586160-cd1d-11e4-aaba-2566638c135c', first: 'Cindy', last: 'LooHoo'}
 };
 
 // response headers for all responses
