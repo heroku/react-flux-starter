@@ -20,7 +20,7 @@ class ItemActions extends CRUDBase {
       first: first,
       last: last
     };
-    super.post(data);
+    return super.post(data);
   }
 
   // define "update" json payload appropriate for resource

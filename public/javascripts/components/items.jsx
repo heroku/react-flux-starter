@@ -38,7 +38,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    
+
     var content;
 
     if (!this.state.items) {
@@ -97,8 +97,12 @@ module.exports = React.createClass({
 
   _onAdd: function () {
     var overlay = React.createFactory(require('./overlays/item-form.jsx'));
-    return Overlays.push(overlay({
-      okCallback: (firstName, lastName) => ItemActions.post(firstName, lastName)
+    Overlays.push(overlay({
+      okCallback: (firstName, lastName) => {
+        var id = ItemActions.post(firstName, lastName);
+        this.setState({selection: id});
+        console.log(`create new item #${id}`);
+      }
     }, null));
   },
 

@@ -44,6 +44,7 @@ class CRUDBase extends BaseAction {
    /**
     * POST (create) new resource
     * @method
+    * @returns client generated UUID of the new resource
     */
    post(payload) {
 
@@ -68,6 +69,8 @@ class CRUDBase extends BaseAction {
      }.bind(this));
 
      this.dispatchServerAction(action, kStates.NEW, payload);
+
+     return payload.id;
    }
 
    /**

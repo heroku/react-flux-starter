@@ -10,7 +10,7 @@ var router = express.Router();
  */
 function indexRouteHandler (req, res) {
   res.render('index', {
-    title: 'Example App',
+    title: 'Example',
     token: req['heroku-bouncer'] && req['heroku-bouncer'].token || '',
     herokuId: req['heroku-bouncer'] && req['heroku-bouncer'].id || ''
   });
