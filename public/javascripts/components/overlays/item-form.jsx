@@ -17,13 +17,16 @@ module.exports = React.createClass({
   },
 
   render: function () {
+    var title = (this.props.firstName && this.props.lastName)
+      ? "Update Item" : "Add New Item";
+
     return (
       <div className="modal fade">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
-              <h4 className="modal-title">Add New Item</h4>
+              <h4 className='modal-title'>{title}</h4>
             </div>
             <div className="modal-body">
               <form>
